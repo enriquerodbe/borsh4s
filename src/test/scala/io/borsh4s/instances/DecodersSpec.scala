@@ -1,0 +1,87 @@
+package io.borsh4s.instances
+
+import io.borsh4s
+import io.borsh4s.Implicits.*
+import munit.FunSuite
+import scala.scalajs.js
+
+class DecodersSpec extends FunSuite {
+  test("byteDecoder") {
+    val obtained = borsh4s.decode[Byte](Array[Byte](15))
+    val expected: Byte = 15
+    assertEquals(obtained, expected)
+  }
+
+  test("booleanDecoder - true") {
+    val obtained = borsh4s.decode[Boolean](Array[Byte](1, 0, 0, 0))
+    val expected: Boolean = true
+    assertEquals(obtained, expected)
+  }
+
+  test("booleanDecoder - false") {
+    val obtained = borsh4s.decode[Boolean](Array[Byte](0, 0, 0, 0))
+    val expected: Boolean = false
+    assertEquals(obtained, expected)
+  }
+
+  test("shortDecoder") {
+    val obtained = borsh4s.decode[Short](Array[Byte](2, 2))
+    val expected: Short = 514
+    assertEquals(obtained, expected)
+  }
+
+  test("intDecoder") {
+    val obtained = borsh4s.decode[Int](Array[Byte](1, 1, 0, 0))
+    val expected: Int = 257
+    assertEquals(obtained, expected)
+  }
+
+  test("longDecoder") {
+    val obtained =
+      borsh4s.decode[Long](Array[Byte](-1, -1, -1, -1, -1, -1, -1, 127))
+    val expected = Long.MaxValue
+    assertEquals(obtained, expected)
+  }
+
+  test("floatDecoder") {
+    val obtained = borsh4s.decode[Float](Array[Byte](0, 0, -128, 63))
+    val expected = 1f
+    assertEquals(obtained, expected)
+  }
+
+  test("doubleDecoder") {
+    val obtained =
+      borsh4s.decode[Double](Array[Byte](0, 0, 0, 0, 0, 0, -16, 63))
+    val expected = 1d
+    assertEquals(obtained, expected)
+  }
+
+  test("stringDecoder") {
+    val obtained =
+      borsh4s.decode[String](Array[Byte](5, 0, 0, 0, 'H', 'e', 'l', 'l', 'o'))
+    val expected = "Hello"
+    assertEquals(obtained, expected)
+  }
+
+  test("dateDecoder") {
+    val obtained =
+      borsh4s.decode[js.Date](Array[Byte](0, 46, 107, -110, 124, -91, 7, 0))
+    val expected = new js.Date(2038, 2, 15, 12, 21, 28)
+    assertEquals(obtained.getTime(), expected.getTime())
+  }
+
+  test("arrayDecoder") {
+    val obtained = borsh4s.decode[Array[Byte]](Array(4, 0, 0, 0, 1, 2, 3, 4))
+    val expected = Array[Byte](1, 2, 3, 4)
+    assert(obtained.sameElements(expected))
+  }
+
+  test("mapDecoder") {
+    val obtained = borsh4s.decode[Map[String, String]](
+      Array[Byte](2, 0, 0, 0, 4, 0, 0, 0, 'k', 'e', 'y', '1', 2, 0, 0, 0, '1',
+        '2', 4, 0, 0, 0, 'k', 'e', 'y', '2', 2, 0, 0, 0, '2', '1')
+    )
+    val expected = Map[String, String]("key1" -> "12", "key2" -> "21")
+    assertEquals(obtained, expected)
+  }
+}

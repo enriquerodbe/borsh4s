@@ -3,7 +3,6 @@ package io.borsh4s.instances
 import io.borsh4s.Decoder
 import java.nio.charset.StandardCharsets
 import scala.reflect.ClassTag
-import scala.scalajs.js
 
 @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements"))
 trait Decoders {
@@ -27,9 +26,6 @@ trait Decoders {
     buffer.get(byteArray)
     new String(byteArray, StandardCharsets.UTF_8)
   }
-
-  implicit val dateDecoder: Decoder[js.Date] = buffer =>
-    new js.Date(buffer.getLong.toDouble / 1000)
 
   implicit def arrayDecoder[T: ClassTag](implicit
       tDecoder: Decoder[T]

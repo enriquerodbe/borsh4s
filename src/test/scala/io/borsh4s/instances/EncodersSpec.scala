@@ -3,7 +3,6 @@ package io.borsh4s.instances
 import io.borsh4s
 import io.borsh4s.Implicits.*
 import munit.FunSuite
-import scala.scalajs.js
 
 class EncodersSpec extends FunSuite {
   test("byteEncoder") {
@@ -57,12 +56,6 @@ class EncodersSpec extends FunSuite {
   test("stringEncoder") {
     val obtained = borsh4s.encode[String]("Hello")
     val expected = Array[Byte](5, 0, 0, 0, 'H', 'e', 'l', 'l', 'o')
-    assert(obtained.sameElements(expected))
-  }
-
-  test("dateEncoder") {
-    val obtained = borsh4s.encode[js.Date](new js.Date(2038, 2, 15, 12, 21, 28))
-    val expected = Array[Byte](0, 46, 107, -110, 124, -91, 7, 0)
     assert(obtained.sameElements(expected))
   }
 

@@ -2,7 +2,6 @@ package io.borsh4s.instances
 
 import io.borsh4s.Encoder
 import java.nio.charset.StandardCharsets
-import scala.scalajs.js
 
 @SuppressWarnings(Array("org.wartremover.warts.NonUnitStatements"))
 trait Encoders {
@@ -27,10 +26,6 @@ trait Encoders {
     val length = bytes.length
     buffer.putInt(length)
     bytes.foreach(buffer.put)
-  }
-
-  implicit val dateEncoder: Encoder[js.Date] = Encoder.instance {
-    (buffer, date) => buffer.putLong(date.getTime().toLong * 1000)
   }
 
   implicit def arrayEncoder[T](implicit

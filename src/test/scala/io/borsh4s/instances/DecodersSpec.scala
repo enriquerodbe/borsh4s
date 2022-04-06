@@ -3,7 +3,6 @@ package io.borsh4s.instances
 import io.borsh4s
 import io.borsh4s.Implicits.*
 import munit.FunSuite
-import scala.scalajs.js
 
 class DecodersSpec extends FunSuite {
   test("byteDecoder") {
@@ -61,13 +60,6 @@ class DecodersSpec extends FunSuite {
       borsh4s.decode[String](Array[Byte](5, 0, 0, 0, 'H', 'e', 'l', 'l', 'o'))
     val expected = "Hello"
     assertEquals(obtained, expected)
-  }
-
-  test("dateDecoder") {
-    val obtained =
-      borsh4s.decode[js.Date](Array[Byte](0, 46, 107, -110, 124, -91, 7, 0))
-    val expected = new js.Date(2038, 2, 15, 12, 21, 28)
-    assertEquals(obtained.getTime(), expected.getTime())
   }
 
   test("arrayDecoder") {

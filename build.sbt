@@ -1,5 +1,3 @@
-ThisBuild / scapegoatVersion := "1.4.12"
-
 lazy val root =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
@@ -16,6 +14,7 @@ lazy val root =
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
       wartremoverErrors ++= Warts.allBut(Wart.Nothing, Wart.ImplicitParameter),
+      ThisBuild / scapegoatVersion := "1.4.12",
       coverageFailOnMinimum := true,
       coverageMinimumStmtTotal := 100,
       coverageMinimumBranchTotal := 100

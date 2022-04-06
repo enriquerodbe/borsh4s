@@ -1,3 +1,6 @@
 package io.borsh4s.auto
 
-trait All extends EncoderDerivation with DecoderDerivation
+trait All
+    extends EncoderDerivation
+    with DecoderDerivation
+    with BinarySizeDerivation

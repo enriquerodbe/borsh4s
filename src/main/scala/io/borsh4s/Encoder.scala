@@ -8,5 +8,7 @@ trait Encoder[T] {
 
 object Encoder {
   def instance[T](e: (ByteBuffer, T) => ByteBuffer): Encoder[T] =
-    (buffer: ByteBuffer, t: T) => { val _ = e(buffer, t) }
+    (buffer: ByteBuffer, t: T) => {
+      val _ = e(buffer, t) // Suppress "discarded non-Unit value" warning
+    }
 }

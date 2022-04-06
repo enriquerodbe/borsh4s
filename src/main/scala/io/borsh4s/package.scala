@@ -3,8 +3,12 @@ package io
 import java.nio.{ByteBuffer, ByteOrder}
 
 package object borsh4s {
-  def encode[T](t: T)(implicit encoder: Encoder[T]): Array[Byte] = {
-    val buffer = ByteBuffer.allocate(4096).order(ByteOrder.LITTLE_ENDIAN)
+  def encode[T](t: T)(implicit
+      encoder: Encoder[T],
+      binarySize: BinarySize[T]
+  ): Array[Byte] = {
+    val size = binarySize.calculate(t)
+    val buffer = ByteBuffer.allocate(size).order(ByteOrder.LITTLE_ENDIAN)
     encoder.encode(buffer, t)
     buffer.array().slice(0, buffer.position())
   }

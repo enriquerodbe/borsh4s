@@ -13,7 +13,8 @@ lazy val root =
         "com.chuusai" %%% "shapeless" % "2.3.9",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
-      wartremoverErrors ++= Warts.allBut(Wart.Nothing, Wart.ImplicitParameter),
+      Compile / compile / wartremoverErrors ++=
+        Warts.allBut(Wart.Nothing, Wart.ImplicitParameter),
       ThisBuild / scapegoatVersion := "1.4.12",
       coverageFailOnMinimum := true,
       coverageMinimumStmtTotal := 100,

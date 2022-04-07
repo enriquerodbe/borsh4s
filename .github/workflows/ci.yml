@@ -1,0 +1,19 @@
+name: Linting & Testing
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check format
+      run: sbt scalafmtCheckAll
+    - name: Run scapegoat
+      run: sbt rootJVM/scapegoat
+    - name: Run tests
+      run: sbt coverage rootJVM/test coverageReport

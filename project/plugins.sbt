@@ -6,3 +6,5 @@ addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.4.16")
 addSbtPlugin("com.sksamuel.scapegoat" %% "sbt-scapegoat" % "1.1.1")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.3")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.6")
+
+addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.14.2")

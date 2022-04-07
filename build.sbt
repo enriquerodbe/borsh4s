@@ -1,3 +1,27 @@
+inThisBuild(
+  Seq(
+    crossScalaVersions := Seq("2.13.8"),
+    githubWorkflowPublishTargetBranches := Seq(),
+    githubWorkflowJavaVersions := Seq(JavaSpec.temurin("17")),
+    githubWorkflowBuild := Seq(
+      WorkflowStep
+        .Sbt(
+          name = Some("Lint"),
+          commands =
+            List("scalafmtSbtCheck", "scalafmtCheckAll", "rootJVM/scapegoat")
+        ),
+      WorkflowStep.Sbt(
+        name = Some("Test"),
+        commands = List("coverage", "rootJVM/test", "rootJS/test")
+      ),
+      WorkflowStep.Sbt(
+        name = Some("Coverage report"),
+        commands = List("rootJVM/coverageReport", "rootJS/coverageReport")
+      )
+    )
+  )
+)
+
 lazy val root =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)

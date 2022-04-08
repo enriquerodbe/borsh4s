@@ -1,6 +1,11 @@
 # borsh4s
 Scala implementation of [Borsh](https://borsh.io/) serialization format.
 
+## Motivation
+There are Java and Javascript implementations for Borsh, but both are very inconvenient to use from Scala on JVM and ScalaJS. The Java implementation uses POJOs and reflection (discouraged in Scala ecosystem) which makes interoperability hard. The JS interoperability is even harder because it uses, for example, the class constructor function as the key of a map where schemas must be declared. This adds a lot of boilerplate required for ScalaJS developers to make it work.
+
+This project aims to be an idiomatic Scala implementation of the Borsh binary serialization format. Cross compiled for Scala on JVM and ScalaJS. Based on typeclasses and automatic typeclass derivation, without reflection or any other "unsafe" runtime tools.
+
 ## Getting started
 
 ### Requirements

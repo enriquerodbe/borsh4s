@@ -1,7 +1,38 @@
 inThisBuild(
   Seq(
+    organization := "io.github.enriquerodbe",
+    homepage := Some(url("https://github.com/enriquerodbe/borsh4s")),
+    licenses := List(
+      "CC0" -> url(
+        "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+      )
+    ),
+    developers := List(
+      Developer(
+        "enriquerodbe",
+        "Enrique Rodríguez",
+        "enriquerodbe@gmail.com",
+        url("https://github.com/enriquerodbe")
+      )
+    ),
+    sonatypeCredentialHost := "s01.oss.sonatype.org",
+    sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
     crossScalaVersions := Seq("2.13.8"),
-    githubWorkflowPublishTargetBranches := Seq(),
+    githubWorkflowTargetTags ++= Seq("v*"),
+    githubWorkflowPublishTargetBranches := Seq(
+      RefPredicate.StartsWith(Ref.Tag("v"))
+    ),
+    githubWorkflowPublish := Seq(
+      WorkflowStep.Sbt(
+        List("ci-release"),
+        env = Map(
+          "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
+          "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
+          "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
+          "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
+        )
+      )
+    ),
     githubWorkflowJavaVersions := Seq(JavaSpec.temurin("17")),
     githubWorkflowBuild := Seq(
       WorkflowStep
@@ -29,7 +60,6 @@ lazy val root =
     .settings(
       organization := "io.borsh4s",
       name := "borsh4s",
-      version := "0.0.1",
       licenses := Seq(License.CC0),
       scalaVersion := "2.13.8",
       scalacOptions += "-Xsource:3",

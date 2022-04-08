@@ -18,6 +18,7 @@ inThisBuild(
     sonatypeCredentialHost := "s01.oss.sonatype.org",
     sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
     crossScalaVersions := Seq("2.13.8"),
+    scalaVersion := "2.13.8",
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches := Seq(
       RefPredicate.StartsWith(Ref.Tag("v"))
@@ -58,10 +59,8 @@ lazy val root =
     .crossType(CrossType.Pure)
     .in(file("."))
     .settings(
-      organization := "io.borsh4s",
       name := "borsh4s",
       licenses := Seq(License.CC0),
-      scalaVersion := "2.13.8",
       scalacOptions += "-Xsource:3",
       libraryDependencies ++= Seq(
         "com.chuusai" %%% "shapeless" % "2.3.9",

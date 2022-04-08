@@ -15,6 +15,7 @@ inThisBuild(
         url("https://github.com/enriquerodbe")
       )
     ),
+    versionScheme := Some("early-semver"),
     sonatypeCredentialHost := "s01.oss.sonatype.org",
     sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
     crossScalaVersions := Seq("2.13.8"),
@@ -25,7 +26,7 @@ inThisBuild(
     ),
     githubWorkflowPublish := Seq(
       WorkflowStep.Sbt(
-        List("ci-release"),
+        commands = List("ci-release"),
         env = Map(
           "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
           "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
@@ -53,6 +54,8 @@ inThisBuild(
     )
   )
 )
+
+ThisProject / skip := true
 
 lazy val root =
   crossProject(JVMPlatform, JSPlatform)

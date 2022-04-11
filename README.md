@@ -19,20 +19,8 @@ The exact versions being used for these dependencies are defined in the
 
 ### Adding the dependency
 
-As this library isn't published to any public repository, download, build and
-publish locally before adding it to another project:
-
-```shell
-git clone git@github.com:enriquerodbe/borsh4s.git
-cd borsh4s
-sbt rootJVM/publishLocal # For JVM
-sbt rootJS/publishLocal # For ScalaJS
-```
-
-And then add it as a dependency in your `build.sbt`:
-
 ```scala
-libraryDependencies += "io.borsh4s" %% "borsh4s" % "<version>"
+libraryDependencies += "io.github.enriquerodbe" %% "borsh4s" % "<version>"
 ```
 
 Find the published version in [`build.sbt`](build.sbt), and remember to use
@@ -86,4 +74,3 @@ and `io.borsh4s.instances.Decoders`.
 
 - Support for `sealed traits`
 - Cross compilation for Scala 3
-- Publish to public repository

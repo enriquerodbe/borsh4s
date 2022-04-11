@@ -23,7 +23,7 @@ The exact versions being used for these dependencies are defined in the
 libraryDependencies += "io.github.enriquerodbe" %% "borsh4s" % "<version>"
 ```
 
-Find the published version in [`build.sbt`](build.sbt), and remember to use
+Find the latest version in [Releases](https://github.com/enriquerodbe/borsh4s/releases), and remember to use
 `%%%` for ScalaJS.
 
 ### Code example

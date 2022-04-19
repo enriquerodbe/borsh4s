@@ -8,7 +8,7 @@ trait Encoders {
   implicit val byteEncoder: Encoder[Byte] = Encoder.instance(_.put(_))
 
   implicit val booleanEncoder: Encoder[Boolean] = Encoder.instance {
-    (buffer, boolean) => if (boolean) buffer.putInt(1) else buffer.putInt(0)
+    (buffer, boolean) => if (boolean) buffer.putShort(1) else buffer.putShort(0)
   }
 
   implicit val shortEncoder: Encoder[Short] = Encoder.instance(_.putShort(_))
@@ -26,6 +26,17 @@ trait Encoders {
     val length = bytes.length
     buffer.putInt(length)
     bytes.foreach(buffer.put)
+  }
+
+  implicit def optionEncoder[T](implicit
+      tEncoder: Encoder[T]
+  ): Encoder[Option[T]] = Encoder.instance {
+    case (buffer, Some(t)) =>
+      buffer.putShort(1)
+      tEncoder.encode(buffer, t)
+      buffer
+    case (buffer, None) =>
+      buffer.putShort(0)
   }
 
   implicit def arrayEncoder[T](implicit

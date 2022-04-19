@@ -48,7 +48,8 @@ assert(instance == decoded)
 The supported primitive types are: `Byte`, `Boolean`, `Short`, `Int`, `Long`,
 `Float`, `Double`, `String`.
 
-For all supported type `T`, `Array[T]` and `Map[String, T]` are supported.
+For all supported type `T`, `Array[T]`, `Option[T]`, and `Map[String, T]` are
+supported.
 
 Also, automatic derivation is provided for any `case class` composed of
 supported types by importing `io.borsh4s.Implicits._`.

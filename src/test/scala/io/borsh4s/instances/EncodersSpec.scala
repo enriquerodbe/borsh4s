@@ -13,13 +13,13 @@ class EncodersSpec extends FunSuite {
 
   test("booleanEncoder - true") {
     val obtained = borsh4s.encode[Boolean](true)
-    val expected = Array[Byte](1, 0, 0, 0)
+    val expected = Array[Byte](1, 0)
     assert(obtained.sameElements(expected))
   }
 
   test("booleanEncoder - false") {
     val obtained = borsh4s.encode[Boolean](false)
-    val expected = Array[Byte](0, 0, 0, 0)
+    val expected = Array[Byte](0, 0)
     assert(obtained.sameElements(expected))
   }
 
@@ -56,6 +56,18 @@ class EncodersSpec extends FunSuite {
   test("stringEncoder") {
     val obtained = borsh4s.encode[String]("Hello")
     val expected = Array[Byte](5, 0, 0, 0, 'H', 'e', 'l', 'l', 'o')
+    assert(obtained.sameElements(expected))
+  }
+
+  test("optionEncoder - Some") {
+    val obtained = borsh4s.encode[Option[Long]](Some(32L))
+    val expected = Array[Byte](1, 0, 32, 0, 0, 0, 0, 0, 0, 0)
+    assert(obtained.sameElements(expected))
+  }
+
+  test("optionEncoder - None") {
+    val obtained = borsh4s.encode[Option[String]](None)
+    val expected = Array[Byte](0, 0)
     assert(obtained.sameElements(expected))
   }
 

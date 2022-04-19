@@ -8,7 +8,7 @@ import scala.reflect.ClassTag
 trait Decoders {
   implicit val byteDecoder: Decoder[Byte] = _.get
 
-  implicit val booleanDecoder: Decoder[Boolean] = _.getInt == 1
+  implicit val booleanDecoder: Decoder[Boolean] = _.getShort == 1
 
   implicit val shortDecoder: Decoder[Short] = _.getShort
 
@@ -25,6 +25,15 @@ trait Decoders {
     val byteArray = new Array[Byte](length)
     buffer.get(byteArray)
     new String(byteArray, StandardCharsets.UTF_8)
+  }
+
+  implicit def optionDecoder[T](implicit
+      tDecoder: Decoder[T]
+  ): Decoder[Option[T]] = { buffer =>
+    buffer.getShort() match {
+      case 0 => None
+      case 1 => Some(tDecoder.decode(buffer))
+    }
   }
 
   implicit def arrayDecoder[T: ClassTag](implicit

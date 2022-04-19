@@ -19,6 +19,11 @@ trait BinarySizes {
 
   implicit val stringSize: BinarySize[String] = _.length + 4
 
+  implicit def optionSize[T](implicit
+      tSize: BinarySize[T]
+  ): BinarySize[Option[T]] =
+    _.map(tSize.calculate).getOrElse(0) + 2
+
   implicit def arraySize[T](implicit
       tSize: BinarySize[T]
   ): BinarySize[Array[T]] =

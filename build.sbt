@@ -76,3 +76,8 @@ lazy val root =
       coverageMinimumStmtTotal := 100,
       coverageMinimumBranchTotal := 100
     )
+    .jsSettings(
+      libraryDependencies ++= Seq(
+        "org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0"
+      )
+    )

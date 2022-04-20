@@ -67,6 +67,7 @@ lazy val root =
       scalacOptions += "-Xsource:3",
       libraryDependencies ++= Seq(
         "com.chuusai" %%% "shapeless" % "2.3.9",
+        "org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
       Compile / compile / wartremoverErrors ++=

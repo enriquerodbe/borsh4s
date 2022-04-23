@@ -5,7 +5,7 @@ import io.borsh4s.BinarySize
 trait BinarySizes {
   implicit val byteSize: BinarySize[Byte] = _ => 1
 
-  implicit val booleanSize: BinarySize[Boolean] = _ => 4
+  implicit val booleanSize: BinarySize[Boolean] = _ => 1
 
   implicit val shortSize: BinarySize[Short] = _ => 2
 

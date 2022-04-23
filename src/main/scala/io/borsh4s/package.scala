@@ -10,7 +10,7 @@ package object borsh4s {
     val size = binarySize.calculate(t)
     val buffer = ByteBuffer.allocate(size).order(ByteOrder.LITTLE_ENDIAN)
     encoder.encode(buffer, t)
-    buffer.array().slice(0, buffer.position())
+    buffer.array()
   }
 
   def decode[T](bytes: Array[Byte])(implicit decoder: Decoder[T]): T =

@@ -59,12 +59,13 @@ Borsh | Scala
 `String` | `String`
 
 
-For all supported type `T`:
+For all supported types `T`, `K`, and `V`:
 Borsh | Scala
 :---:|:---:
 `Option<T>` | `Option[T]`
 `Vec<T>` | `Array[T]`
-`HashMap<String, T>` | `Map[String, T]`
+`HashSet<T>` | `Set[T]`
+`HashMap<K, V>` | `Map[K, V]`
 
 For all supported types `T0` ... `TN`
 Borsh | Scala
@@ -113,8 +114,6 @@ and `io.borsh4s.instances.Decoders`.
 ## Future work
 
 - `Enums`
-- `HashSet`s
-- `HashMap`s with arbitrary key type
 - Unsigned integers
 - Schemas
 - Cross compilation for Scala 3

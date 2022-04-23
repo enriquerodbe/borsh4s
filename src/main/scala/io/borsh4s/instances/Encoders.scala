@@ -7,9 +7,11 @@ import java.nio.charset.StandardCharsets
 trait Encoders {
   implicit val byteEncoder: Encoder[Byte] = Encoder.instance(_.put(_))
 
-  implicit val booleanEncoder: Encoder[Boolean] = Encoder.instance {
-    (buffer, boolean) => if (boolean) buffer.putShort(1) else buffer.putShort(0)
-  }
+  implicit val booleanEncoder: Encoder[Boolean] =
+    Encoder.instance { (buffer, boolean) =>
+      val value: Byte = if (boolean) 0x1 else 0x0
+      buffer.put(value)
+    }
 
   implicit val shortEncoder: Encoder[Short] = Encoder.instance(_.putShort(_))
 

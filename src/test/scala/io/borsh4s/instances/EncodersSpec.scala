@@ -77,6 +77,13 @@ class EncodersSpec extends FunSuite {
     assert(obtained.sameElements(expected))
   }
 
+  test("setEncoder") {
+    val obtained = borsh4s.encode[Set[String]](Set("Any", "any", "123"))
+    val expected = Array[Byte](3, 0, 0, 0, 3, 0, 0, 0, '1', '2', '3', 3, 0, 0,
+      0, 'A', 'n', 'y', 3, 0, 0, 0, 'a', 'n', 'y')
+    assert(obtained.sameElements(expected))
+  }
+
   test("mapEncoder") {
     val obtained = borsh4s.encode[Map[String, Array[Byte]]](
       Map("key1" -> Array(1, 2), "key2" -> Array(2, 1))

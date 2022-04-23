@@ -43,6 +43,12 @@ trait Decoders {
     (0 until length).map(_ => tDecoder.decode(buffer)).toArray
   }
 
+  implicit def setDecoder[T](implicit tDecoder: Decoder[T]): Decoder[Set[T]] = {
+    buffer =>
+      val size = buffer.getInt
+      (1 to size).map(_ => tDecoder.decode(buffer)).toSet
+  }
+
   implicit def mapDecoder[V](implicit
       vDecoder: Decoder[V]
   ): Decoder[Map[String, V]] = { buffer =>

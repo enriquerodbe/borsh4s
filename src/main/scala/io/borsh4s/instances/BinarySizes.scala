@@ -29,6 +29,9 @@ trait BinarySizes {
   ): BinarySize[Array[T]] =
     _.map(tSize.calculate).sum + 4
 
+  implicit def setSize[T](implicit tSize: BinarySize[T]): BinarySize[Set[T]] =
+    _.foldLeft(0)((acc, t) => acc + tSize.calculate(t)) + 4
+
   implicit def mapSize[V](implicit
       vSize: BinarySize[V]
   ): BinarySize[Map[String, V]] =

@@ -22,7 +22,7 @@ trait BinarySizes {
   implicit def optionSize[T](implicit
       tSize: BinarySize[T]
   ): BinarySize[Option[T]] =
-    _.map(tSize.calculate).getOrElse(0) + 2
+    _.map(tSize.calculate).getOrElse(0) + 1
 
   implicit def arraySize[T](implicit
       tSize: BinarySize[T]

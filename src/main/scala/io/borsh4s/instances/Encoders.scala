@@ -56,14 +56,15 @@ trait Encoders {
     set.toSeq.sorted.foreach(tEncoder.encode(buffer, _))
   }
 
-  implicit def mapEncoder[V](implicit
+  implicit def mapEncoder[K: Ordering, V](implicit
+      kEncoder: Encoder[K],
       vEncoder: Encoder[V]
-  ): Encoder[Map[String, V]] = { (buffer, map) =>
+  ): Encoder[Map[K, V]] = { (buffer, map) =>
     val length = map.size
     val keyValues = map.toList.sortBy(_._1)
     buffer.putInt(length)
     keyValues.foreach { case (k, v) =>
-      stringEncoder.encode(buffer, k)
+      kEncoder.encode(buffer, k)
       vEncoder.encode(buffer, v)
     }
   }

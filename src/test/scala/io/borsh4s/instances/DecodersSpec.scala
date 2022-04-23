@@ -64,13 +64,13 @@ class DecodersSpec extends FunSuite {
 
   test("optionDecoder - Some") {
     val obtained =
-      borsh4s.decode[Option[String]](Array[Byte](1, 0, 2, 0, 0, 0, 'H', 'i'))
+      borsh4s.decode[Option[String]](Array[Byte](1, 2, 0, 0, 0, 'H', 'i'))
     val expected = Some("Hi")
     assertEquals(obtained, expected)
   }
 
   test("optionDecoder - None") {
-    val obtained = borsh4s.decode[Option[String]](Array[Byte](0, 0))
+    val obtained = borsh4s.decode[Option[String]](Array[Byte](0))
     val expected = None
     assertEquals(obtained, expected)
   }

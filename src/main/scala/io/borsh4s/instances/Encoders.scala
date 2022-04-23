@@ -34,11 +34,11 @@ trait Encoders {
       tEncoder: Encoder[T]
   ): Encoder[Option[T]] = Encoder.instance {
     case (buffer, Some(t)) =>
-      buffer.putShort(1)
+      buffer.put(0x1: Byte)
       tEncoder.encode(buffer, t)
       buffer
     case (buffer, None) =>
-      buffer.putShort(0)
+      buffer.put(0x0: Byte)
   }
 
   implicit def arrayEncoder[T](implicit

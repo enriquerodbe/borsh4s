@@ -30,9 +30,9 @@ trait Decoders {
   implicit def optionDecoder[T](implicit
       tDecoder: Decoder[T]
   ): Decoder[Option[T]] = { buffer =>
-    buffer.getShort() match {
-      case 0 => None
-      case 1 => Some(tDecoder.decode(buffer))
+    buffer.get() match {
+      case 0x0 => None
+      case 0x1 => Some(tDecoder.decode(buffer))
     }
   }
 

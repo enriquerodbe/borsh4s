@@ -18,7 +18,7 @@ class DerivationSpec extends FunSuite {
     val instance =
       MyTestClass(1, Some("World"), NestedClass(Array(true, false)))
     val obtained = borsh4s.encode(instance)
-    val expected = Array[Byte](1, 0, 0, 0, 1, 0, 5, 0, 0, 0, 'W', 'o', 'r', 'l',
+    val expected = Array[Byte](1, 0, 0, 0, 1, 5, 0, 0, 0, 'W', 'o', 'r', 'l',
       'd', 2, 0, 0, 0, 1, 0)
     assert(obtained.sameElements(expected))
   }
@@ -27,8 +27,8 @@ class DerivationSpec extends FunSuite {
     val expected =
       MyTestClass(1, Some("World"), NestedClass(Array(true, false)))
     val obtained = borsh4s.decode[MyTestClass](
-      Array[Byte](1, 0, 0, 0, 1, 0, 5, 0, 0, 0, 'W', 'o', 'r', 'l', 'd', 2, 0,
-        0, 0, 1, 0)
+      Array[Byte](1, 0, 0, 0, 1, 5, 0, 0, 0, 'W', 'o', 'r', 'l', 'd', 2, 0, 0,
+        0, 1, 0)
     )
     assertEquals(obtained.field1, expected.field1)
     assertEquals(obtained.field2, expected.field2)

@@ -49,6 +49,13 @@ trait Encoders {
     array.foreach(tEncoder.encode(buffer, _))
   }
 
+  implicit def setEncoder[T: Ordering](implicit
+      tEncoder: Encoder[T]
+  ): Encoder[Set[T]] = { (buffer, set) =>
+    buffer.putInt(set.size)
+    set.toSeq.sorted.foreach(tEncoder.encode(buffer, _))
+  }
+
   implicit def mapEncoder[V](implicit
       vEncoder: Encoder[V]
   ): Encoder[Map[String, V]] = { (buffer, map) =>

@@ -81,6 +81,15 @@ class DecodersSpec extends FunSuite {
     assert(obtained.sameElements(expected))
   }
 
+  test("setDecoder") {
+    val obtained = borsh4s.decode[Set[String]](
+      Array(3, 0, 0, 0, 3, 0, 0, 0, 'a', 'n', 'y', 3, 0, 0, 0, 'A', 'n', 'y', 3,
+        0, 0, 0, '1', '2', '3')
+    )
+    val expected = Set("Any", "any", "123")
+    assertEquals(obtained, expected)
+  }
+
   test("mapDecoder") {
     val obtained = borsh4s.decode[Map[String, String]](
       Array[Byte](2, 0, 0, 0, 4, 0, 0, 0, 'k', 'e', 'y', '1', 2, 0, 0, 0, '1',

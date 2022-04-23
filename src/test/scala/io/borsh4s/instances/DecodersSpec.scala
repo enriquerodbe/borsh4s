@@ -12,13 +12,13 @@ class DecodersSpec extends FunSuite {
   }
 
   test("booleanDecoder - true") {
-    val obtained = borsh4s.decode[Boolean](Array[Byte](1, 0, 0, 0))
+    val obtained = borsh4s.decode[Boolean](Array[Byte](0x1))
     val expected: Boolean = true
     assertEquals(obtained, expected)
   }
 
   test("booleanDecoder - false") {
-    val obtained = borsh4s.decode[Boolean](Array[Byte](0, 0, 0, 0))
+    val obtained = borsh4s.decode[Boolean](Array[Byte](0x0))
     val expected: Boolean = false
     assertEquals(obtained, expected)
   }

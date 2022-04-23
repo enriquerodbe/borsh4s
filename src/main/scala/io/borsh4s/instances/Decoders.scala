@@ -8,7 +8,7 @@ import scala.reflect.ClassTag
 trait Decoders {
   implicit val byteDecoder: Decoder[Byte] = _.get
 
-  implicit val booleanDecoder: Decoder[Boolean] = _.getShort == 1
+  implicit val booleanDecoder: Decoder[Boolean] = _.get == 0x1
 
   implicit val shortDecoder: Decoder[Short] = _.getShort
 

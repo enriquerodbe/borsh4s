@@ -32,10 +32,11 @@ trait BinarySizes {
   implicit def setSize[T](implicit tSize: BinarySize[T]): BinarySize[Set[T]] =
     _.foldLeft(0)((acc, t) => acc + tSize.calculate(t)) + 4
 
-  implicit def mapSize[V](implicit
+  implicit def mapSize[K, V](implicit
+      kSize: BinarySize[K],
       vSize: BinarySize[V]
-  ): BinarySize[Map[String, V]] =
+  ): BinarySize[Map[K, V]] =
     _.map { case (k, v) =>
-      stringSize.calculate(k) + vSize.calculate(v)
+      kSize.calculate(k) + vSize.calculate(v)
     }.sum + 4
 }

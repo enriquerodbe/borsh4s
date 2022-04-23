@@ -49,12 +49,13 @@ trait Decoders {
       (1 to size).map(_ => tDecoder.decode(buffer)).toSet
   }
 
-  implicit def mapDecoder[V](implicit
+  implicit def mapDecoder[K, V](implicit
+      kDecoder: Decoder[K],
       vDecoder: Decoder[V]
-  ): Decoder[Map[String, V]] = { buffer =>
+  ): Decoder[Map[K, V]] = { buffer =>
     val length = buffer.getInt
     (0 until length).map { _ =>
-      val key = stringDecoder.decode(buffer)
+      val key = kDecoder.decode(buffer)
       val value = vDecoder.decode(buffer)
       (key, value)
     }.toMap

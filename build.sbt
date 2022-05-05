@@ -71,7 +71,7 @@ lazy val root =
       ),
       Compile / compile / wartremoverErrors ++=
         Warts.allBut(Wart.Nothing, Wart.ImplicitParameter),
-      ThisBuild / scapegoatVersion := "1.4.12",
+      ThisBuild / scapegoatVersion := "1.4.13",
       coverageFailOnMinimum := true,
       coverageMinimumStmtTotal := 100,
       coverageMinimumBranchTotal := 100

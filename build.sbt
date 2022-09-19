@@ -66,7 +66,7 @@ lazy val root =
       licenses := Seq(License.CC0),
       scalacOptions += "-Xsource:3",
       libraryDependencies ++= Seq(
-        "com.chuusai" %%% "shapeless" % "2.3.9",
+        "com.chuusai" %%% "shapeless" % "2.3.10",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
       Compile / compile / wartremoverErrors ++=

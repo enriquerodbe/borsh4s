@@ -8,15 +8,6 @@ This project aims to be an idiomatic Scala implementation of the Borsh binary se
 
 ## Quick start
 
-### Requirements
-
-- [sbt](https://www.scala-sbt.org/)
-- JDK to build for the JVM
-- Node.js to build for ScalaJS
-
-The exact versions being used for these dependencies are defined in the
-[`.tool-versions`](.tool-versions) file.
-
 ### Add the dependency
 
 ```scala
@@ -110,6 +101,17 @@ sure that any custom implementation moves the position of this buffer exactly
 as the size of the type being read/written requires, otherwise it will break the
 whole decoding/encoding process. Find examples in `io.borsh4s.instances.Encoders`
 and `io.borsh4s.instances.Decoders`.
+
+## Developing
+
+### Requirements
+
+- [sbt](https://www.scala-sbt.org/)
+- JDK to build for the JVM
+- Node.js to build for ScalaJS
+
+The exact versions being used for these dependencies are defined in the
+[`.tool-versions`](.tool-versions) file.
 
 ## Future work
 

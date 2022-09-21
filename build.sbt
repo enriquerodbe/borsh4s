@@ -66,7 +66,8 @@ lazy val root =
       licenses := Seq(License.CC0),
       scalacOptions += "-Xsource:3",
       libraryDependencies ++= Seq(
-        "com.chuusai" %%% "shapeless" % "2.3.10",
+        "com.softwaremill.magnolia1_2" %%% "magnolia" % "1.1.2",
+        "org.scala-lang" % "scala-reflect" % "2.13.8",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
       Compile / compile / wartremoverErrors ++=

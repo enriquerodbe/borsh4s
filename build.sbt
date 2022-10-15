@@ -67,12 +67,12 @@ lazy val root =
       scalacOptions += "-Xsource:3",
       libraryDependencies ++= Seq(
         "com.softwaremill.magnolia1_2" %%% "magnolia" % "1.1.2",
-        "org.scala-lang" % "scala-reflect" % "2.13.8",
+        "org.scala-lang" % "scala-reflect" % "2.13.10",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
       Compile / compile / wartremoverErrors ++=
         Warts.allBut(Wart.Nothing, Wart.ImplicitParameter),
-      ThisBuild / scapegoatVersion := "1.4.15",
+      ThisBuild / scapegoatVersion := "1.4.17",
       coverageFailOnMinimum := true,
       coverageMinimumStmtTotal := 100,
       coverageMinimumBranchTotal := 100

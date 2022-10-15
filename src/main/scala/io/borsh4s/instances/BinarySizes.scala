@@ -2,41 +2,36 @@ package io.borsh4s.instances
 
 import io.borsh4s.BinarySize
 
-trait BinarySizes {
-  implicit val byteSize: BinarySize[Byte] = _ => 1
+object BinarySizes:
+  given BinarySize[Byte] = _ => 1
 
-  implicit val booleanSize: BinarySize[Boolean] = _ => 1
+  given BinarySize[Boolean] = _ => 1
 
-  implicit val shortSize: BinarySize[Short] = _ => 2
+  given BinarySize[Short] = _ => 2
 
-  implicit val intSize: BinarySize[Int] = _ => 4
+  given BinarySize[Int] = _ => 4
 
-  implicit val longSize: BinarySize[Long] = _ => 8
+  given BinarySize[Long] = _ => 8
 
-  implicit val floatSize: BinarySize[Float] = _ => 4
+  given BinarySize[Float] = _ => 4
 
-  implicit val doubleSize: BinarySize[Double] = _ => 8
+  given BinarySize[Double] = _ => 8
 
-  implicit val stringSize: BinarySize[String] = _.length + 4
+  given BinarySize[String] = _.length + 4
 
-  implicit def optionSize[T](implicit
-      tSize: BinarySize[T]
-  ): BinarySize[Option[T]] =
+  given [T](using tSize: BinarySize[T]): BinarySize[Option[T]] =
     _.map(tSize.calculate).getOrElse(0) + 1
 
-  implicit def arraySize[T](implicit
-      tSize: BinarySize[T]
-  ): BinarySize[Array[T]] =
+  given [T](using tSize: BinarySize[T]): BinarySize[Array[T]] =
     _.map(tSize.calculate).sum + 4
 
-  implicit def setSize[T](implicit tSize: BinarySize[T]): BinarySize[Set[T]] =
+  given [T](using tSize: BinarySize[T]): BinarySize[Set[T]] =
     _.foldLeft(0)((acc, t) => acc + tSize.calculate(t)) + 4
 
-  implicit def mapSize[K, V](implicit
+  given [K, V](using
       kSize: BinarySize[K],
       vSize: BinarySize[V]
   ): BinarySize[Map[K, V]] =
     _.map { case (k, v) =>
       kSize.calculate(k) + vSize.calculate(v)
     }.sum + 4
-}

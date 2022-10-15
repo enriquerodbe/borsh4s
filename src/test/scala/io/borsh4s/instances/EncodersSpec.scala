@@ -1,95 +1,97 @@
 package io.borsh4s.instances
 
-import io.borsh4s
-import io.borsh4s.Implicits.*
+import io.borsh4s.{Borsh4s, given}
 import munit.FunSuite
 
-class EncodersSpec extends FunSuite {
+class EncodersSpec extends FunSuite:
   test("byteEncoder") {
-    val obtained = borsh4s.encode[Byte](15)
+    val obtained = Borsh4s.encode[Byte](15)
     val expected = Array[Byte](15)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("booleanEncoder - true") {
-    val obtained = borsh4s.encode[Boolean](true)
+    val obtained = Borsh4s.encode[Boolean](true)
     val expected = Array[Byte](0x1)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("booleanEncoder - false") {
-    val obtained = borsh4s.encode[Boolean](false)
+    val obtained = Borsh4s.encode[Boolean](false)
     val expected = Array[Byte](0x0)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("shortEncoder") {
-    val obtained = borsh4s.encode[Short](514)
+    val obtained = Borsh4s.encode[Short](514)
     val expected = Array[Byte](2, 2)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("intEncoder") {
-    val obtained = borsh4s.encode[Int](257)
+    val obtained = Borsh4s.encode[Int](257)
     val expected = Array[Byte](1, 1, 0, 0)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("longEncoder") {
-    val obtained = borsh4s.encode[Long](Long.MaxValue)
+    val obtained = Borsh4s.encode[Long](Long.MaxValue)
     val expected = Array[Byte](-1, -1, -1, -1, -1, -1, -1, 127)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("floatEncoder") {
-    val obtained = borsh4s.encode[Float](1f)
+    val obtained = Borsh4s.encode[Float](1f)
     val expected = Array[Byte](0, 0, -128, 63)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("doubleEncoder") {
-    val obtained = borsh4s.encode[Double](1d)
+    val obtained = Borsh4s.encode[Double](1d)
     val expected = Array[Byte](0, 0, 0, 0, 0, 0, -16, 63)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("stringEncoder") {
-    val obtained = borsh4s.encode[String]("Hello")
+    val obtained = Borsh4s.encode[String]("Hello")
     val expected = Array[Byte](5, 0, 0, 0, 'H', 'e', 'l', 'l', 'o')
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("optionEncoder - Some") {
-    val obtained = borsh4s.encode[Option[Long]](Some(32L))
+    val obtained = Borsh4s.encode[Option[Long]](Some(32L))
     val expected = Array[Byte](1, 32, 0, 0, 0, 0, 0, 0, 0)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("optionEncoder - None") {
-    val obtained = borsh4s.encode[Option[String]](None)
+    val obtained = Borsh4s.encode[Option[String]](None)
     val expected = Array[Byte](0)
-    assert(obtained.sameElements(expected))
+    assertEquals(
+      obtained.toSeq,
+      expected.toSeq,
+      s"${obtained.toSeq} | ${expected.toSeq}"
+    )
   }
 
   test("arrayEncoder") {
-    val obtained = borsh4s.encode[Array[Byte]](Array(1, 2, 3, 4))
+    val obtained = Borsh4s.encode[Array[Byte]](Array(1, 2, 3, 4))
     val expected = Array[Byte](4, 0, 0, 0, 1, 2, 3, 4)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("setEncoder") {
-    val obtained = borsh4s.encode[Set[String]](Set("Any", "any", "123"))
+    val obtained = Borsh4s.encode[Set[String]](Set("Any", "any", "123"))
     val expected = Array[Byte](3, 0, 0, 0, 3, 0, 0, 0, '1', '2', '3', 3, 0, 0,
       0, 'A', 'n', 'y', 3, 0, 0, 0, 'a', 'n', 'y')
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
 
   test("mapEncoder") {
-    val obtained = borsh4s.encode[Map[String, Array[Byte]]](
+    val obtained = Borsh4s.encode[Map[String, Array[Byte]]](
       Map("key1" -> Array(1, 2), "key2" -> Array(2, 1))
     )
     val expected = Array[Byte](2, 0, 0, 0, 4, 0, 0, 0, 'k', 'e', 'y', '1', 2, 0,
       0, 0, 1, 2, 4, 0, 0, 0, 'k', 'e', 'y', '2', 2, 0, 0, 0, 2, 1)
-    assert(obtained.sameElements(expected))
+    assertEquals(obtained.toSeq, expected.toSeq)
   }
-}

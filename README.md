@@ -20,16 +20,15 @@ Find the latest version in [Releases](https://github.com/enriquerodbe/borsh4s/re
 ### Code example
 
 ```scala
-import io.borsh4s
-import io.borsh4s.Implicits._
+import io.borsh4s.{Borsh4s, given}
 
 case class MyTestClass(field1: Int, field2: String, nested: NestedClass)
 case class NestedClass(field1: Boolean, field2: Map[String, Float])
 
 val instance = MyTestClass(2, "Hello", NestedClass(true, Map("World" -> 1.5f)))
     
-val encoded = borsh4s.encode(instance)
-val decoded = borsh4s.decode[MyTestClass](encoded)
+val encoded = Borsh4s.encode(instance)
+val decoded = Borsh4s.decode[MyTestClass](encoded)
     
 assert(instance == decoded)
 ```
@@ -62,6 +61,7 @@ For all supported types `T0` ... `TN`
 Borsh | Scala
 :---:|:---:
 `struct Name { field0: T0, ..., fieldN: TN }` | `case class Name(field0: T0, ..., fieldN: TN)`
+`enum Name { T0, ..., TN }` | `enum Name { case T0, ..., case TN }`
 
 ## How does it work?
 
@@ -82,7 +82,7 @@ To decode an instance of `T`, only an instance of [`io.borsh4s.Decoder[T]`](src/
 Instances of the supported base and collection types as well as automatic derivation for `case class`es are provided out-of-the-box. To make all of them available in the implicit scope, use the following import:
 
 ```scala
-import io.borsh4s.Implicits._
+import io.borsh4s.given
 ```
 
 ### Providing implementations for unsupported types
@@ -93,8 +93,8 @@ so some custom implementations might be needed.
 
 In order to add support for a type `T`, make implementations for the
 `io.borsh4s.Encoder[T]`, `io.borsh4s.BinarySize[T]`, and `io.borsh4s.Decoder[T]` type classes and make sure
-they are in the implicit scope of any `io.borsh4s.encode` and
-`io.borsh4s.decode` calls.
+they are in the implicit scope of any `io.borsh4s.Borsh4s.encode` and
+`io.borsh4s.Borsh4s.decode` calls.
 
 Notice that these type classes use `java.nio.ByteBuffer` which is mutable. Make
 sure that any custom implementation moves the position of this buffer exactly
@@ -112,10 +112,3 @@ and `io.borsh4s.instances.Decoders`.
 
 The exact versions being used for these dependencies are defined in the
 [`.tool-versions`](.tool-versions) file.
-
-## Future work
-
-- `Enums`
-- Unsigned integers
-- Schemas
-- Cross compilation for Scala 3

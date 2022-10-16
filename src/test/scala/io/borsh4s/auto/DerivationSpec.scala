@@ -1,37 +1,37 @@
 package io.borsh4s.auto
 
-import io.borsh4s
+import io.borsh4s.{Borsh4s, given}
 import munit.FunSuite
-import io.borsh4s.Implicits.*
 
-class DerivationSpec extends FunSuite {
-
-  case class MyTestClass(
-      field1: Int,
-      field2: Option[String],
-      nested: NestedClass
-  )
-  @SuppressWarnings(Array("org.wartremover.warts.ArrayEquals"))
+class DerivationSpec extends FunSuite:
+  enum MyEnum {
+    case MyCaseA(field: Boolean)
+    case MyCaseB(field1: Int, field2: Option[String], nested: NestedClass)
+    case MyCaseC(field: Int)
+    case MyCaseD
+  }
   case class NestedClass(field: Array[Boolean])
 
+  val instance: MyEnum.MyCaseB =
+    MyEnum.MyCaseB(1, Some("World"), NestedClass(Array(true, false)))
+  val binary =
+    Array[Byte](1, 1, 0, 0, 0, 1, 5, 0, 0, 0, 'W', 'o', 'r', 'l', 'd', 2, 0, 0,
+      0, 1, 0)
+
   test("EncoderDerivation") {
-    val instance =
-      MyTestClass(1, Some("World"), NestedClass(Array(true, false)))
-    val obtained = borsh4s.encode(instance)
-    val expected = Array[Byte](1, 0, 0, 0, 1, 5, 0, 0, 0, 'W', 'o', 'r', 'l',
-      'd', 2, 0, 0, 0, 1, 0)
-    assert(obtained.sameElements(expected))
+    val obtained = Borsh4s.encode[MyEnum](instance)
+    assertEquals(obtained.toSeq, binary.toSeq)
   }
 
   test("DecoderDerivation") {
-    val expected =
-      MyTestClass(1, Some("World"), NestedClass(Array(true, false)))
-    val obtained = borsh4s.decode[MyTestClass](
-      Array[Byte](1, 0, 0, 0, 1, 5, 0, 0, 0, 'W', 'o', 'r', 'l', 'd', 2, 0, 0,
-        0, 1, 0)
-    )
-    assertEquals(obtained.field1, expected.field1)
-    assertEquals(obtained.field2, expected.field2)
-    assert(obtained.nested.field.sameElements(expected.nested.field))
+    val obtained = Borsh4s.decode[MyEnum](binary)
+
+    obtained match
+      case b: MyEnum.MyCaseB =>
+        assertEquals(b.field1, instance.field1)
+        assertEquals(b.field2, instance.field2)
+        assertEquals(b.nested.field.toSeq, instance.nested.field.toSeq)
+
+      case _ =>
+        fail("Incorrect class decoded")
   }
-}

@@ -1,12 +1,9 @@
+import sbt.internal.librarymanagement.VersionSchemes
 inThisBuild(
   Seq(
     organization := "io.github.enriquerodbe",
     homepage := Some(url("https://github.com/enriquerodbe/borsh4s")),
-    licenses := List(
-      "CC0" -> url(
-        "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
-      )
-    ),
+    licenses := Seq(License.CC0),
     developers := List(
       Developer(
         "enriquerodbe",
@@ -15,11 +12,12 @@ inThisBuild(
         url("https://github.com/enriquerodbe")
       )
     ),
-    versionScheme := Some("early-semver"),
+    versionScheme := Some(VersionScheme.EarlySemVer),
     sonatypeCredentialHost := "s01.oss.sonatype.org",
     sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
-    crossScalaVersions := Seq("2.13.8"),
-    scalaVersion := "2.13.8",
+    crossScalaVersions := Seq("3.2.0"),
+    scalaVersion := "3.2.0",
+    githubWorkflowTargetBranches := Seq("main"),
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches := Seq(
       RefPredicate.StartsWith(Ref.Tag("v"))
@@ -35,50 +33,45 @@ inThisBuild(
         )
       )
     ),
-    githubWorkflowJavaVersions := Seq(JavaSpec.temurin("17")),
+    githubWorkflowJavaVersions := Seq(JavaSpec.temurin("17.0.4")),
     githubWorkflowBuild := Seq(
       WorkflowStep
         .Sbt(
           name = Some("Lint"),
           commands =
-            List("scalafmtSbtCheck", "scalafmtCheckAll", "rootJVM/scapegoat")
+            List("scalafmtSbtCheck", "scalafmtCheckAll", "borsh4sJVM/compile")
         ),
       WorkflowStep.Sbt(
         name = Some("Test"),
-        commands = List("coverage", "rootJVM/test", "rootJS/test")
+        commands = List("borsh4sJS/test")
       ),
       WorkflowStep.Sbt(
         name = Some("Coverage report"),
-        commands = List("rootJVM/coverageReport", "rootJS/coverageReport")
+        commands =
+          List("coverage", "borsh4sJVM/test", "borsh4sJVM/coverageReport")
       )
     )
   )
 )
 
-ThisProject / skip := true
-
-lazy val root =
+lazy val borsh4s =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
     .in(file("."))
     .settings(
       name := "borsh4s",
-      licenses := Seq(License.CC0),
-      scalacOptions += "-Xsource:3",
       libraryDependencies ++= Seq(
-        "com.softwaremill.magnolia1_2" %%% "magnolia" % "1.1.2",
-        "org.scala-lang" % "scala-reflect" % "2.13.10",
+        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.2.0",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
-      Compile / compile / wartremoverErrors ++=
-        Warts.allBut(Wart.Nothing, Wart.ImplicitParameter),
-      ThisBuild / scapegoatVersion := "1.4.17",
+      Compile / compile / wartremoverErrors ++= Warts.allBut(Wart.Any),
       coverageFailOnMinimum := true,
       coverageMinimumStmtTotal := 100,
       coverageMinimumBranchTotal := 100
     )
     .jsSettings(
-      libraryDependencies ++= Seq(
-        "org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0"
-      )
+      scalacOptions += "-scalajs",
+      libraryDependencies +=
+        ("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0")
+          .cross(CrossVersion.for3Use2_13)
     )

@@ -54,6 +54,8 @@ inThisBuild(
   )
 )
 
+ThisProject / publish / skip := true
+
 lazy val borsh4s =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)

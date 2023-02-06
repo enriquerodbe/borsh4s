@@ -15,8 +15,8 @@ inThisBuild(
     versionScheme := Some(VersionScheme.EarlySemVer),
     sonatypeCredentialHost := "s01.oss.sonatype.org",
     sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
-    crossScalaVersions := Seq("3.2.1"),
-    scalaVersion := "3.2.1",
+    crossScalaVersions := Seq("3.2.2"),
+    scalaVersion := "3.2.2",
     githubWorkflowTargetBranches := Seq("main"),
     githubWorkflowTargetTags ++= Seq("v*"),
     githubWorkflowPublishTargetBranches := Seq(

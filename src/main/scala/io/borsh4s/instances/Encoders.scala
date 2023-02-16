@@ -8,7 +8,7 @@ object Encoders:
 
   given Encoder[Boolean] =
     (buffer, boolean) =>
-      val value: Byte = if (boolean) 0x1 else 0x0
+      val value: Byte = if boolean then 0x1 else 0x0
       buffer.put(value)
 
   given Encoder[Short] = _.putShort(_)

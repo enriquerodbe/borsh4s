@@ -1,37 +1,55 @@
 package io.borsh4s.instances
 
 import io.borsh4s.BinarySize
+import io.borsh4s.BinarySize.*
+import io.borsh4s.BinarySize.{Constant, Function}
+import io.borsh4s.Naturals.Nat
+import io.borsh4s.Naturals.Nat.sumBy
 
 object BinarySizes:
-  given BinarySize[Byte] = _ => 1
+  given BinarySize[Byte] = Constant.One
 
-  given BinarySize[Boolean] = _ => 1
+  given BinarySize[Boolean] = Constant.One
 
-  given BinarySize[Short] = _ => 2
+  given BinarySize[Short] = Constant.Two
 
-  given BinarySize[Int] = _ => 4
+  given BinarySize[Int] = Constant.Four
 
-  given BinarySize[Long] = _ => 8
+  given BinarySize[Long] = Constant.Eight
 
-  given BinarySize[Float] = _ => 4
+  given BinarySize[Float] = Constant.Four
 
-  given BinarySize[Double] = _ => 8
+  given BinarySize[Double] = Constant.Eight
 
-  given BinarySize[String] = _.length + 4
+  given BinarySize[String] =
+    Function(str => Nat(str.length).get + Nat.Four)
 
-  given [T](using tSize: BinarySize[T]): BinarySize[Option[T]] =
-    _.map(tSize.calculate).getOrElse(0) + 1
+  given [T: BinarySize]: BinarySize[Option[T]] =
+    Function(total(_) + Nat.One)
 
-  given [T](using tSize: BinarySize[T]): BinarySize[Array[T]] =
-    _.map(tSize.calculate).sum + 4
+  given [T: BinarySize]: BinarySize[Array[T]] =
+    Function(total(_) + Nat.Four)
 
-  given [T](using tSize: BinarySize[T]): BinarySize[Set[T]] =
-    _.foldLeft(0)((acc, t) => acc + tSize.calculate(t)) + 4
+  given [T: BinarySize]: BinarySize[Set[T]] =
+    Function(total(_) + Nat.Four)
+
+  given [K, V](using
+      kSize: BinarySize[K],
+      vSize: BinarySize[V]
+  ): BinarySize[(K, V)] =
+    (kSize, vSize) match
+      case (Constant(kValue), Constant(vValue)) =>
+        Constant(kValue + vValue)
+      case _ =>
+        Function((k, v) => kSize.calculate(k) + vSize.calculate(v))
 
   given [K, V](using
       kSize: BinarySize[K],
       vSize: BinarySize[V]
   ): BinarySize[Map[K, V]] =
-    _.map { case (k, v) =>
-      kSize.calculate(k) + vSize.calculate(v)
-    }.sum + 4
+    Function(total(_) + Nat.Four)
+
+  private def total[T](iter: Iterable[T])(using tSize: BinarySize[T]): Nat =
+    tSize match
+      case Constant(value)       => value * Nat(iter.size).get
+      case function: Function[_] => iter.sumBy(function.calculate)

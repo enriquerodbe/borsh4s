@@ -15,8 +15,7 @@ private object Naturals:
     extension [T](iter: Iterable[T])
       def sumBy(f: T => Nat): Nat =
         iter.foldLeft(0)((acc, t) => acc + f(t))
-    extension (iter: Iterable[Nat])
-      def sum: Nat = iter.sumBy(identity)
+    extension (iter: Iterable[Nat]) def sum: Nat = iter.sumBy(identity)
 
   extension (n: Nat)
     def toInt: Int = n

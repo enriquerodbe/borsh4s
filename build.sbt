@@ -1,4 +1,3 @@
-import sbt.internal.librarymanagement.VersionSchemes
 inThisBuild(
   Seq(
     organization := "io.github.enriquerodbe",
@@ -66,7 +65,8 @@ lazy val borsh4s =
         "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.2.6",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
-      Compile / compile / wartremoverErrors ++= Warts.allBut(Wart.Any, Wart.Nothing),
+      Compile / compile / wartremoverErrors ++=
+        Warts.allBut(Wart.Any, Wart.Nothing),
       coverageFailOnMinimum := true,
       coverageMinimumStmtTotal := 100,
       coverageMinimumBranchTotal := 100

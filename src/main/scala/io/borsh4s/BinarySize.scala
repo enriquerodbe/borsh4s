@@ -15,9 +15,5 @@ object BinarySize:
     def Four[T]: BinarySize.Constant[T] = Constant(Nat.Four)
     def Eight[T]: BinarySize.Constant[T] = Constant(Nat.Eight)
 
-  trait Function[T] extends BinarySize[T]:
-    override def calculate(t: T): Nat
-
-  object Function:
-    def apply[T](calculate: T => Nat): Function[T] =
-      calculate(_)
+  final case class Function[T](calc: T => Nat) extends BinarySize[T]:
+    override def calculate(t: T): Nat = calc(t)

@@ -81,6 +81,7 @@ object Decoders:
       list <- repeatDecode(bytes, nat)
     yield list
 
+  @SuppressWarnings(Array("org.wartremover.warts.MutableDataStructures"))
   private def repeatDecode[T](bytes: ByteBuffer, length: Nat)(using
       decoder: Decoder[T]
   ): Result[List[T]] = {

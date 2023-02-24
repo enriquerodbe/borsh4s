@@ -21,11 +21,12 @@ object BinarySizes:
 
   given BinarySize[Double] = Constant.Eight
 
+  @SuppressWarnings(Array("org.wartremover.warts.OptionPartial"))
   given BinarySize[String] =
     Function(str => Nat(str.length).get + Nat.Four)
 
   given [T: BinarySize]: BinarySize[Option[T]] =
-    Function(total(_) + Nat.One)
+    Function(opt => total(opt.toList) + Nat.One)
 
   given [T: BinarySize]: BinarySize[Array[T]] =
     Function(total(_) + Nat.Four)
@@ -49,6 +50,7 @@ object BinarySizes:
   ): BinarySize[Map[K, V]] =
     Function(total(_) + Nat.Four)
 
+  @SuppressWarnings(Array("org.wartremover.warts.OptionPartial"))
   private def total[T](iter: Iterable[T])(using tSize: BinarySize[T]): Nat =
     tSize match
       case Constant(value)       => value * Nat(iter.size).get

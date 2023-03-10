@@ -63,7 +63,7 @@ lazy val borsh4s =
     .settings(
       name := "borsh4s",
       libraryDependencies ++= Seq(
-        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.2.6",
+        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.2.7",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
       Compile / compile / wartremoverErrors ++= Warts.allBut(Wart.Any),

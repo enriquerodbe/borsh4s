@@ -30,7 +30,7 @@ val instance = MyTestClass(2, "Hello", NestedClass(true, Map("World" -> 1.5f)))
 val encoded = Borsh4s.encode(instance)
 val decoded = Borsh4s.decode[MyTestClass](encoded)
     
-assert(instance == decoded)
+assert(Right(instance) == decoded)
 ```
 
 ## Supported types
@@ -70,7 +70,7 @@ Borsh4s is implemented using the [Type class](https://en.wikipedia.org/wiki/Type
 ```scala
 def encode[T: Encoder: BinarySize](t: T): Array[Byte]
 
-def decode[T: Decoder](bytes: Array[Byte]): T
+def decode[T: Decoder](bytes: Array[Byte]): Either[Decoder.Failure, T]
 ```
 
 To encode an instance of `T`, instances of the following type classes must be available in the implicit scope:

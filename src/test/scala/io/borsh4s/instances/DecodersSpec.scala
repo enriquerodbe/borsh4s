@@ -1,6 +1,6 @@
 package io.borsh4s.instances
 
-import io.borsh4s.{Borsh4s, Decoder, given}
+import io.borsh4s.{Borsh4s, given}
 import io.borsh4s.Decoder.Failure
 import munit.FunSuite
 

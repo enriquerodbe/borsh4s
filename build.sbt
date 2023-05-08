@@ -29,12 +29,10 @@ lazy val borsh4s =
         "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.2.6",
         "org.scalameta" %%% "munit" % "0.7.29" % Test
       ),
-      Compile / compile / wartremoverErrors ++=
-        Warts.allBut(Wart.Any, Wart.Nothing),
 
       // Lint config
-      Compile / compile / wartremoverErrors ++= Warts
-        .allBut(Wart.Any, Wart.Nothing),
+      Compile / compile / wartremoverErrors ++=
+        Warts.allBut(Wart.Any, Wart.Nothing),
       coverageFailOnMinimum := true,
       // There are 2 lines in Borsh4s.scala that don't get reported
       coverageMinimumStmtTotal := 98.78,

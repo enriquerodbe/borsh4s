@@ -22,29 +22,23 @@ object Decoder:
       s"$message - At position ${bytes.position()}."
 
   object Failure:
-    final case class BufferException(
-        cause: Throwable,
-        override val bytes: ByteBuffer
-    ) extends Failure(cause.getMessage, bytes)
+    final case class BufferException(cause: Throwable, _bytes: ByteBuffer)
+        extends Failure(cause.getMessage, _bytes)
 
-    final case class InvalidBooleanValue(
-        value: Byte,
-        override val bytes: ByteBuffer
-    ) extends Failure(s"Invalid boolean value $value", bytes)
+    final case class InvalidBooleanValue(value: Byte, _bytes: ByteBuffer)
+        extends Failure(s"Invalid boolean value $value", _bytes)
 
-    final case class InvalidLength(value: Int, override val bytes: ByteBuffer)
-        extends Failure(s"Invalid length $value", bytes)
+    final case class InvalidLength(value: Int, _bytes: ByteBuffer)
+        extends Failure(s"Invalid length $value", _bytes)
 
-    final case class InvalidOptionValue(
-        value: Byte,
-        override val bytes: ByteBuffer
-    ) extends Failure(s"Invalid option value $value", bytes)
+    final case class InvalidOptionValue(value: Byte, _bytes: ByteBuffer)
+        extends Failure(s"Invalid option value $value", _bytes)
 
     final case class InvalidUnionValue(
         index: Int,
         name: String,
-        override val bytes: ByteBuffer
-    ) extends Failure(s"Invalid union value $index for union $name", bytes)
+        _bytes: ByteBuffer
+    ) extends Failure(s"Invalid union value $index for union $name", _bytes)
 
     final case class InvalidListElement(index: Int, cause: Failure)
         extends Failure(

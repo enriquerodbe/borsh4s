@@ -6,7 +6,7 @@ lazy val borsh4s =
     .in(file("."))
     .settings(
       name := "borsh4s",
-      scalaVersion := "3.2.2",
+      scalaVersion := "3.2.1",
 
       // Publish config
       organization := "io.github.enriquerodbe",

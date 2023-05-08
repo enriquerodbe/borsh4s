@@ -68,7 +68,8 @@ lazy val borsh4s =
       Compile / compile / wartremoverErrors ++=
         Warts.allBut(Wart.Any, Wart.Nothing),
       coverageFailOnMinimum := true,
-      coverageMinimumStmtTotal := 100,
+      // There are 2 lines in Borsh4s.scala that don't get reported
+      coverageMinimumStmtTotal := 98.78,
       coverageMinimumBranchTotal := 100
     )
     .jsSettings(

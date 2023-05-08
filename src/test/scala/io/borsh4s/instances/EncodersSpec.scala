@@ -95,3 +95,12 @@ class EncodersSpec extends FunSuite:
       0, 0, 1, 2, 4, 0, 0, 0, 'k', 'e', 'y', '2', 2, 0, 0, 0, 2, 1)
     assertEquals(obtained.toSeq, expected.toSeq)
   }
+
+  test("mapEncoder - constant sizes") {
+    val obtained = Borsh4s.encode[Map[Int, Int]](
+      Map[Int, Int](1 -> 1, 12 -> 13)
+    )
+    val expected =
+      Array[Byte](2, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 12, 0, 0, 0, 13, 0, 0, 0)
+    assertEquals(obtained.toSeq, expected.toSeq)
+  }

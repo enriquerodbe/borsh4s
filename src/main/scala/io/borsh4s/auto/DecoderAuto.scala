@@ -1,14 +1,23 @@
 package io.borsh4s.auto
 
 import io.borsh4s.Decoder
+import io.borsh4s.Decoder.*
 import java.nio.ByteBuffer
 import magnolia1.*
+import magnolia1.CaseClass.Param
 
 object DecoderAuto extends AutoDerivation[Decoder]:
   override def join[T](ctx: CaseClass[Decoder, T]): Decoder[T] =
-    bytes => ctx.construct(_.typeclass.decode(bytes))
+    bytes => ctx.constructMonadic(_.typeclass.decode(bytes))
 
   override def split[T](ctx: SealedTrait[Decoder, T]): Decoder[T] =
     bytes =>
-      val index = bytes.get().toInt
-      ctx.subtypes(index).typeclass.decode(bytes)
+      bytes
+        .read(_.get())
+        .map(_.toInt)
+        .flatMap {
+          case index if ctx.subtypes.indices.contains(index) =>
+            ctx.subtypes(index).typeclass.decode(bytes)
+          case index =>
+            Left(Failure.InvalidUnionValue(index, ctx.typeInfo.full, bytes))
+        }

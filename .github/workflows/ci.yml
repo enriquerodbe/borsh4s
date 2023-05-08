@@ -9,10 +9,6 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-  PGP_SECRET: ${{ secrets.PGP_SECRET }}
-  SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-  SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
 
 jobs:
   build:
@@ -58,5 +54,9 @@ jobs:
       - name: Cache sbt
         uses: coursier/cache-action@v6
 
-      - name: Publish
+      - env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
         run: sbt ci-release

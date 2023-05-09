@@ -1,5 +1,25 @@
 ThisProject / publish / skip := true
 
+// Publish config
+inThisBuild(
+  Seq(
+    organization := "io.github.enriquerodbe",
+    homepage := Some(url("https://github.com/enriquerodbe/borsh4s")),
+    licenses := Seq(License.CC0),
+    developers := List(
+      Developer(
+        "enriquerodbe",
+        "Enrique Rodríguez",
+        "enriquerodbe@gmail.com",
+        url("https://github.com/enriquerodbe")
+      )
+    ),
+    versionScheme := Some(VersionScheme.EarlySemVer),
+    sonatypeCredentialHost := "s01.oss.sonatype.org",
+    sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+  )
+)
+
 lazy val borsh4s =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
@@ -7,22 +27,6 @@ lazy val borsh4s =
     .settings(
       name := "borsh4s",
       scalaVersion := "3.2.1",
-
-      // Publish config
-      organization := "io.github.enriquerodbe",
-      homepage := Some(url("https://github.com/enriquerodbe/borsh4s")),
-      licenses := Seq(License.CC0),
-      developers := List(
-        Developer(
-          "enriquerodbe",
-          "Enrique Rodríguez",
-          "enriquerodbe@gmail.com",
-          url("https://github.com/enriquerodbe")
-        )
-      ),
-      versionScheme := Some(VersionScheme.EarlySemVer),
-      sonatypeCredentialHost := "s01.oss.sonatype.org",
-      sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
 
       // Dependencies
       libraryDependencies ++= Seq(

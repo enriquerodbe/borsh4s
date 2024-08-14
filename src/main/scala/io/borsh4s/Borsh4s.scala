@@ -7,12 +7,15 @@ object Borsh4s:
       t: T
   )(using encoder: Encoder[T], binarySize: BinarySize[T]): Array[Byte] =
     val size = binarySize.calculate(t)
-    val buffer = ByteBuffer.allocate(size).order(ByteOrder.LITTLE_ENDIAN)
+    val buffer = ByteBuffer.allocate(size.toInt).order(ByteOrder.LITTLE_ENDIAN)
     encoder.encode(buffer, t)
     buffer.array()
 
-  def decode[T](bytes: Array[Byte])(using decoder: Decoder[T]): T =
-    decoder.decode(ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN))
+  def decode[T](bytes: Array[Byte])(using
+      decoder: Decoder[T]
+  ): Decoder.Result[T] =
+    val buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN)
+    decoder.decode(buffer)
 
 export instances.BinarySizes.given
 export instances.Decoders.given

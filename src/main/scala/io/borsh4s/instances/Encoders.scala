@@ -2,13 +2,15 @@ package io.borsh4s.instances
 
 import io.borsh4s.Encoder
 import java.nio.charset.StandardCharsets
+import scala.annotation.nowarn
 
+@nowarn("msg=discarded non-Unit value of type java.nio.ByteBuffer")
 object Encoders:
   given Encoder[Byte] = _.put(_)
 
   given Encoder[Boolean] =
     (buffer, boolean) =>
-      val value: Byte = if (boolean) 0x1 else 0x0
+      val value: Byte = if boolean then 0x1 else 0x0
       buffer.put(value)
 
   given Encoder[Short] = _.putShort(_)

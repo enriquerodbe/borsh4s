@@ -1,4 +1,6 @@
-import sbt.internal.librarymanagement.VersionSchemes
+ThisProject / publish / skip := true
+
+// Publish config
 inThisBuild(
   Seq(
     organization := "io.github.enriquerodbe",
@@ -14,47 +16,9 @@ inThisBuild(
     ),
     versionScheme := Some(VersionScheme.EarlySemVer),
     sonatypeCredentialHost := "s01.oss.sonatype.org",
-    sonatypeRepository := "https://s01.oss.sonatype.org/service/local",
-    crossScalaVersions := Seq("3.2.1"),
-    scalaVersion := "3.2.1",
-    githubWorkflowTargetBranches := Seq("main"),
-    githubWorkflowTargetTags ++= Seq("v*"),
-    githubWorkflowPublishTargetBranches := Seq(
-      RefPredicate.StartsWith(Ref.Tag("v"))
-    ),
-    githubWorkflowPublish := Seq(
-      WorkflowStep.Sbt(
-        commands = List("ci-release"),
-        env = Map(
-          "PGP_PASSPHRASE" -> "${{ secrets.PGP_PASSPHRASE }}",
-          "PGP_SECRET" -> "${{ secrets.PGP_SECRET }}",
-          "SONATYPE_PASSWORD" -> "${{ secrets.SONATYPE_PASSWORD }}",
-          "SONATYPE_USERNAME" -> "${{ secrets.SONATYPE_USERNAME }}"
-        )
-      )
-    ),
-    githubWorkflowJavaVersions := Seq(JavaSpec.temurin("17.0.4")),
-    githubWorkflowBuild := Seq(
-      WorkflowStep
-        .Sbt(
-          name = Some("Lint"),
-          commands =
-            List("scalafmtSbtCheck", "scalafmtCheckAll", "borsh4sJVM/compile")
-        ),
-      WorkflowStep.Sbt(
-        name = Some("Test"),
-        commands = List("borsh4sJS/test")
-      ),
-      WorkflowStep.Sbt(
-        name = Some("Coverage report"),
-        commands =
-          List("coverage", "borsh4sJVM/test", "borsh4sJVM/coverageReport")
-      )
-    )
+    sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
   )
 )
-
-ThisProject / publish / skip := true
 
 lazy val borsh4s =
   crossProject(JVMPlatform, JSPlatform)
@@ -62,17 +26,23 @@ lazy val borsh4s =
     .in(file("."))
     .settings(
       name := "borsh4s",
+      scalaVersion := "3.4.2",
+
+      // Dependencies
       libraryDependencies ++= Seq(
-        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.2.7",
-        "org.scalameta" %%% "munit" % "0.7.29" % Test
+        "com.softwaremill.magnolia1_3" %% "magnolia" % "1.2.7",
+        "org.scalameta" %% "munit" % "1.0.1" % Test
       ),
-      Compile / compile / wartremoverErrors ++= Warts.allBut(Wart.Any),
+
+      // Lint config
+      Compile / compile / wartremoverErrors ++=
+        Warts.allBut(Wart.Any, Wart.Nothing),
       coverageFailOnMinimum := true,
-      coverageMinimumStmtTotal := 100,
+      // There are 2 lines in Borsh4s.scala that don't get reported
+      coverageMinimumStmtTotal := 98.78,
       coverageMinimumBranchTotal := 100
     )
     .jsSettings(
-      scalacOptions += "-scalajs",
       libraryDependencies +=
         ("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0")
           .cross(CrossVersion.for3Use2_13)

@@ -67,10 +67,7 @@ object Decoders:
         value <- vDecoder.decode(bytes)
       yield (key, value)
 
-  given [K, V](using
-      kDecoder: Decoder[K],
-      vDecoder: Decoder[V]
-  ): Decoder[Map[K, V]] =
+  given [K, V](using Decoder[K], Decoder[V]): Decoder[Map[K, V]] =
     decodeList[(K, V)](_).map(_.toMap)
 
   private def decodeList[T](

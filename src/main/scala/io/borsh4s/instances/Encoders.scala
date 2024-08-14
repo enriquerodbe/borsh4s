@@ -2,7 +2,9 @@ package io.borsh4s.instances
 
 import io.borsh4s.Encoder
 import java.nio.charset.StandardCharsets
+import scala.annotation.nowarn
 
+@nowarn("msg=discarded non-Unit value of type java.nio.ByteBuffer")
 object Encoders:
   given Encoder[Byte] = _.put(_)
 

@@ -16,8 +16,8 @@ object Decoder:
     def read(f: ByteBuffer => T): Result[T] =
       Try(f(bytes)).toEither.left.map(Failure.BufferException(_, bytes))
 
-  sealed trait Failure(message: String, val bytes: ByteBuffer)
-      extends Exception:
+  sealed trait Failure(message: String) extends Exception:
+    def bytes: ByteBuffer
     override def getMessage: String =
       s"$message - At position ${bytes.position()}."
 
@@ -25,29 +25,29 @@ object Decoder:
     final case class BufferException(
         cause: Throwable,
         override val bytes: ByteBuffer
-    ) extends Failure(cause.getMessage, bytes)
+    ) extends Failure(cause.getMessage)
 
     final case class InvalidBooleanValue(
         value: Byte,
         override val bytes: ByteBuffer
-    ) extends Failure(s"Invalid boolean value $value", bytes)
+    ) extends Failure(s"Invalid boolean value $value")
 
     final case class InvalidLength(value: Int, override val bytes: ByteBuffer)
-        extends Failure(s"Invalid length $value", bytes)
+        extends Failure(s"Invalid length $value")
 
     final case class InvalidOptionValue(
         value: Byte,
         override val bytes: ByteBuffer
-    ) extends Failure(s"Invalid option value $value", bytes)
+    ) extends Failure(s"Invalid option value $value")
 
     final case class InvalidUnionValue(
         index: Int,
         name: String,
         override val bytes: ByteBuffer
-    ) extends Failure(s"Invalid union value $index for union $name", bytes)
+    ) extends Failure(s"Invalid union value $index for union $name")
 
     final case class InvalidListElement(index: Int, cause: Failure)
         extends Failure(
-          s"Invalid list element at index $index. Cause: ${cause.getMessage}",
-          cause.bytes
-        )
+          s"Invalid list element at index $index. Cause: ${cause.getMessage}"
+        ):
+      override val bytes: ByteBuffer = cause.bytes

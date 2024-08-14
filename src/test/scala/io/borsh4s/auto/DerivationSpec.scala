@@ -2,7 +2,7 @@ package io.borsh4s.auto
 
 import io.borsh4s.{Borsh4s, given}
 import io.borsh4s.Decoder.Failure
-import munit.FunSuite
+import munit.{Clues, FunSuite}
 
 class DerivationSpec extends FunSuite:
   enum MyEnum {
@@ -40,8 +40,8 @@ class DerivationSpec extends FunSuite:
         assertEquals(b.field2, instance.field2)
         assertEquals(b.nested.field.toSeq, instance.nested.field.toSeq)
 
-      case _ =>
-        fail("Incorrect class decoded")
+      case other =>
+        fail("Incorrect class decoded", Clues.fromValue(other))
   }
 
   test("DecoderDerivation - Invalid union value") {

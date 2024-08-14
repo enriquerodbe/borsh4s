@@ -50,4 +50,4 @@ object Decoder:
         extends Failure(
           s"Invalid list element at index $index. Cause: ${cause.getMessage}"
         ):
-      override def bytes: ByteBuffer = cause.bytes
+      override val bytes: ByteBuffer = cause.bytes

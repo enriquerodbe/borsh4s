@@ -13,9 +13,10 @@ object DecoderAuto extends AutoDerivation[Decoder]:
       bytes
         .read(_.get())
         .map(_.toInt)
-        .flatMap {
-          case index if ctx.subtypes.indices.contains(index) =>
-            ctx.subtypes(index).typeclass.decode(bytes)
-          case index =>
-            Left(Failure.InvalidUnionValue(index, ctx.typeInfo.full, bytes))
+        .flatMap { index =>
+          ctx.subtypes.find(_.index == index) match
+            case Some(subtype) =>
+              subtype.typeclass.decode(bytes)
+            case None =>
+              Left(Failure.InvalidUnionValue(index, ctx.typeInfo.full, bytes))
         }

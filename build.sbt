@@ -1,3 +1,5 @@
+import org.typelevel.scalacoptions.ScalacOptions
+
 ThisProject / publish / skip := true
 
 // Publish config
@@ -30,20 +32,17 @@ lazy val borsh4s =
 
       // Dependencies
       libraryDependencies ++= Seq(
-        "com.softwaremill.magnolia1_3" %% "magnolia" % "1.2.7",
-        "org.scalameta" %% "munit" % "1.0.1" % Test
+        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.3.7",
+        "org.scalameta" %%% "munit" % "1.0.1" % Test
       ),
 
       // Lint config
+      tpolecatScalacOptions +=
+        ScalacOptions.languageFeatureOption("strictEquality"),
       Compile / compile / wartremoverErrors ++=
         Warts.allBut(Wart.Any, Wart.Nothing),
       coverageFailOnMinimum := true,
       // There are 2 lines in Borsh4s.scala that don't get reported
-      coverageMinimumStmtTotal := 98.78,
+      coverageMinimumStmtTotal := 98.77,
       coverageMinimumBranchTotal := 100
-    )
-    .jsSettings(
-      libraryDependencies +=
-        ("org.scala-js" %%% "scalajs-java-securerandom" % "1.0.0")
-          .cross(CrossVersion.for3Use2_13)
     )

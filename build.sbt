@@ -37,7 +37,8 @@ lazy val borsh4s =
       ),
 
       // Lint config
-      tpolecatScalacOptions += ScalacOptions.languageFeatureOption("strictEquality"),
+      tpolecatScalacOptions +=
+        ScalacOptions.languageFeatureOption("strictEquality"),
       Compile / compile / wartremoverErrors ++=
         Warts.allBut(Wart.Any, Wart.Nothing),
       coverageFailOnMinimum := true,

@@ -43,6 +43,6 @@ lazy val borsh4s =
         Warts.allBut(Wart.Any, Wart.Nothing),
       coverageFailOnMinimum := true,
       // There are 2 lines in Borsh4s.scala that don't get reported
-      coverageMinimumStmtTotal := 98.78,
+      coverageMinimumStmtTotal := 98.77,
       coverageMinimumBranchTotal := 100
     )

@@ -1,36 +1,20 @@
-name: CI/CD
+name: CI
 
 on:
   pull_request:
     branches: [main]
   push:
     branches: [main]
-    tags: [v*]
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  build:
-    name: CI
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current branch
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version-file: '.tool-versions'
-          cache: 'sbt'
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: '.tool-versions'
-
-      - name: Cache sbt
-        uses: coursier/cache-action@v6
+      - name: Set up the environment
+        uses: ./.github/actions/setup-env
 
       - name: Lint
         run: sbt scalafmtSbtCheck scalafmtCheckAll borsh4sJVM/compile
@@ -40,28 +24,3 @@ jobs:
 
       - name: Coverage report
         run: sbt coverage borsh4sJVM/test borsh4sJVM/coverageReport
-
-  publish:
-    name: CD
-    needs: [build]
-    if: github.event_name != 'pull_request' && (startsWith(github.ref, 'refs/tags/v'))
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout current branch
-        uses: actions/checkout@v3
-
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: temurin
-          java-version: 17.0.4+101
-
-      - name: Cache sbt
-        uses: coursier/cache-action@v6
-
-      - env:
-          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-        run: sbt ci-release

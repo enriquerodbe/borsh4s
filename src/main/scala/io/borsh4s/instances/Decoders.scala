@@ -18,8 +18,7 @@ object Decoders:
 
   private val natDecoder: Decoder[Nat] =
     intDecoder.flatMap: int =>
-      bytes =>
-        Nat(int).toRight(Failure.InvalidLength(int, bytes))
+      bytes => Nat(int).toRight(Failure.InvalidLength(int, bytes))
 
   given Decoder[Long] = _.read(_.getLong())
 
@@ -29,10 +28,12 @@ object Decoders:
 
   given Decoder[Boolean] =
     bytes =>
-      bytes.read(_.get()).flatMap:
-        case 0x0   => Right(false)
-        case 0x1   => Right(true)
-        case other => Left(Failure.InvalidBooleanValue(other, bytes))
+      bytes
+        .read(_.get())
+        .flatMap:
+          case 0x0   => Right(false)
+          case 0x1   => Right(true)
+          case other => Left(Failure.InvalidBooleanValue(other, bytes))
 
   given Decoder[String] =
     bytes =>
@@ -44,10 +45,12 @@ object Decoders:
 
   given [T](using tDecoder: Decoder[T]): Decoder[Option[T]] =
     bytes =>
-      bytes.read(_.get()).flatMap:
-        case 0x0   => Right(None)
-        case 0x1   => tDecoder.decode(bytes).map(Some.apply)
-        case other => Left(Failure.InvalidOptionValue(other, bytes))
+      bytes
+        .read(_.get())
+        .flatMap:
+          case 0x0   => Right(None)
+          case 0x1   => tDecoder.decode(bytes).map(Some.apply)
+          case other => Left(Failure.InvalidOptionValue(other, bytes))
 
   given [T: ClassTag](using tDecoder: Decoder[T]): Decoder[Array[T]] =
     decodeList(_).map(_.toArray)

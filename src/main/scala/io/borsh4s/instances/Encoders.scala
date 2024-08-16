@@ -56,7 +56,7 @@ object Encoders:
       val length = map.size
       val keyValues = map.toList.sortBy(_._1)
       buffer.putInt(length)
-      keyValues.foreach { case (k, v) =>
-        kEncoder.encode(buffer, k)
-        vEncoder.encode(buffer, v)
-      }
+      keyValues.foreach:
+        case (k, v) =>
+          kEncoder.encode(buffer, k)
+          vEncoder.encode(buffer, v)

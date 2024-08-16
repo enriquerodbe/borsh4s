@@ -5,12 +5,11 @@ import io.borsh4s.Decoder.Failure
 import munit.{Clues, FunSuite}
 
 class DerivationSpec extends FunSuite:
-  enum MyEnum {
+  enum MyEnum:
     case MyCaseA(field: Boolean)
     case MyCaseB(field1: Int, field2: Option[String], nested: NestedClass)
     case MyCaseC(field: Int)
     case MyCaseD
-  }
   case class NestedClass(field: Array[Boolean])
 
   val instance: MyEnum.MyCaseB =
@@ -19,19 +18,17 @@ class DerivationSpec extends FunSuite:
     Array[Byte](1, 1, 0, 0, 0, 1, 5, 0, 0, 0, 'W', 'o', 'r', 'l', 'd', 2, 0, 0,
       0, 1, 0)
 
-  test("EncoderDerivation") {
+  test("EncoderDerivation"):
     val obtained = Borsh4s.encode[MyEnum](instance)
     assertEquals(obtained.toSeq, binary.toSeq)
-  }
 
-  test("EncoderDerivation - constant sizes") {
+  test("EncoderDerivation - constant sizes"):
     final case class ConstantSizes(a: Int, b: Short)
     val obtained = Borsh4s.encode(ConstantSizes(15, 2))
     val expected = Array[Byte](15, 0, 0, 0, 2, 0)
     assertEquals(obtained.toSeq, expected.toSeq)
-  }
 
-  test("DecoderDerivation") {
+  test("DecoderDerivation"):
     val obtained = Borsh4s.decode[MyEnum](binary)
 
     obtained match
@@ -42,9 +39,8 @@ class DerivationSpec extends FunSuite:
 
       case other =>
         fail("Incorrect class decoded", Clues.fromValue(other))
-  }
 
-  test("DecoderDerivation - Invalid union value") {
+  test("DecoderDerivation - Invalid union value"):
     val obtained = Borsh4s.decode[MyEnum](Array[Byte](18))
 
     obtained match
@@ -56,4 +52,3 @@ class DerivationSpec extends FunSuite:
         assertEquals(buffer.capacity(), 1)
       case _ =>
         fail("Incorrect handling of invalid union value")
-  }

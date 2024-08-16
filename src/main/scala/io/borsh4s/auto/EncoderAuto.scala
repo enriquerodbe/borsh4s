@@ -11,7 +11,6 @@ object EncoderAuto extends AutoDerivation[Encoder]:
 
   override def split[T](ctx: SealedTrait[Encoder, T]): Encoder[T] =
     (buffer, t) =>
-      ctx.choose(t) { sub =>
+      ctx.choose(t): sub =>
         val _ = buffer.put(sub.subtype.index.toByte)
         sub.typeclass.encode(buffer, sub.cast(t))
-      }

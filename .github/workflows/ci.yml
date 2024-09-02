@@ -2,12 +2,12 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [ main ]
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout current branch
@@ -19,8 +19,26 @@ jobs:
       - name: Lint
         run: sbt scalafmtSbtCheck scalafmtCheckAll borsh4sJVM/compile
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+
+      - name: Set up the environment
+        uses: ./.github/actions/setup-env
+
       - name: Test
         run: sbt borsh4sJS/test
+
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+
+      - name: Set up the environment
+        uses: ./.github/actions/setup-env
 
       - name: Coverage report
         run: sbt coverage borsh4sJVM/test borsh4sJVM/coverageReport

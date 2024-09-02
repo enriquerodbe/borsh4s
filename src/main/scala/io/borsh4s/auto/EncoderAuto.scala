@@ -1,7 +1,6 @@
 package io.borsh4s.auto
 
 import io.borsh4s.Encoder
-import java.nio.ByteBuffer
 import magnolia1.*
 
 object EncoderAuto extends AutoDerivation[Encoder]:

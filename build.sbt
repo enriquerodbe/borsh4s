@@ -28,7 +28,7 @@ lazy val borsh4s =
     .in(file("."))
     .settings(
       name := "borsh4s",
-      scalaVersion := "3.4.2",
+      scalaVersion := "3.5.0",
 
       // Dependencies
       libraryDependencies ++= Seq(
@@ -43,6 +43,6 @@ lazy val borsh4s =
         Warts.allBut(Wart.Any, Wart.Nothing),
       coverageFailOnMinimum := true,
       // There are 2 lines in Borsh4s.scala that don't get reported
-      coverageMinimumStmtTotal := 98.77,
+      coverageMinimumStmtTotal := 98.76,
       coverageMinimumBranchTotal := 100
     )

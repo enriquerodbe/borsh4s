@@ -3,7 +3,6 @@ package io.borsh4s.auto
 import io.borsh4s.BinarySize
 import io.borsh4s.BinarySize.{Constant, Function}
 import io.borsh4s.Naturals.Nat
-import io.borsh4s.Naturals.Nat.sum
 import magnolia1.*
 
 object BinarySizeAuto extends AutoDerivation[BinarySize]:

@@ -23,7 +23,7 @@ inThisBuild(
 )
 
 lazy val borsh4s =
-  crossProject(JVMPlatform, JSPlatform)
+  crossProject(JVMPlatform, JSPlatform, NativePlatform)
     .crossType(CrossType.Pure)
     .in(file("."))
     .settings(

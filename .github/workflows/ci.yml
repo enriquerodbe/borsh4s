@@ -29,7 +29,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: Test
-        run: sbt borsh4sJS/test
+        run: sbt borsh4sJS/test borsh4sNative/test
 
   coverage:
     runs-on: ubuntu-latest

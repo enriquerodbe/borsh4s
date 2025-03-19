@@ -2,7 +2,6 @@ package io.borsh4s.instances
 
 import io.borsh4s.BinarySize
 import io.borsh4s.BinarySize.*
-import io.borsh4s.BinarySize.{Constant, Function}
 import io.borsh4s.Naturals.Nat
 import io.borsh4s.Naturals.Nat.sumBy
 

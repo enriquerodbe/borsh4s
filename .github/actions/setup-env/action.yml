@@ -28,4 +28,4 @@ runs:
 
     - uses: sbt/setup-sbt@v1
       with:
-        sbt-runner-version: 1.10.2
+        sbt-runner-version: 1.10.11

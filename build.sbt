@@ -33,7 +33,7 @@ lazy val borsh4s =
       // Dependencies
       libraryDependencies ++= Seq(
         "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.3.16",
-        "org.scalameta" %%% "munit" % "1.1.0" % Test
+        "org.scalameta" %%% "munit" % "1.1.1" % Test
       ),
 
       // Lint config

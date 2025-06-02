@@ -16,9 +16,7 @@ inThisBuild(
         url("https://github.com/enriquerodbe")
       )
     ),
-    versionScheme := Some(VersionScheme.EarlySemVer),
-    sonatypeCredentialHost := "s01.oss.sonatype.org",
-    sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+    versionScheme := Some(VersionScheme.EarlySemVer)
   )
 )
 

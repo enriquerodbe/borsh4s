@@ -16,9 +16,7 @@ inThisBuild(
         url("https://github.com/enriquerodbe")
       )
     ),
-    versionScheme := Some(VersionScheme.EarlySemVer),
-    sonatypeCredentialHost := "s01.oss.sonatype.org",
-    sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+    versionScheme := Some(VersionScheme.EarlySemVer)
   )
 )
 
@@ -32,7 +30,7 @@ lazy val borsh4s =
 
       // Dependencies
       libraryDependencies ++= Seq(
-        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.3.16",
+        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.3.18",
         "org.scalameta" %%% "munit" % "1.1.1" % Test
       ),
 

@@ -2,7 +2,7 @@ package io.borsh4s
 
 import scala.annotation.targetName
 
-private object Naturals:
+object Naturals:
   opaque type Nat = Int
 
   object Nat:

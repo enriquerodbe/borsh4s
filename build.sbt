@@ -32,7 +32,7 @@ lazy val borsh4s =
 
       // Dependencies
       libraryDependencies ++= Seq(
-        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.3.16",
+        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.3.18",
         "org.scalameta" %%% "munit" % "1.1.1" % Test
       ),
 

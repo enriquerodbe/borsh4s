@@ -28,11 +28,11 @@ lazy val borsh4s =
     .in(file("."))
     .settings(
       name := "borsh4s",
-      scalaVersion := "3.7.0",
+      scalaVersion := "3.7.1",
 
       // Dependencies
       libraryDependencies ++= Seq(
-        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.3.16",
+        "com.softwaremill.magnolia1_3" %%% "magnolia" % "1.3.18",
         "org.scalameta" %%% "munit" % "1.1.1" % Test
       ),
 

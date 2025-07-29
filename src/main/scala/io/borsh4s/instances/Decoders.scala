@@ -87,7 +87,7 @@ object Decoders:
 
     @tailrec def loop(current: Nat): Result[List[T]] =
       current.decrement match {
-        case None => Right(buffer.toList)
+        case None              => Right(buffer.toList)
         case Some(predecessor) =>
           decoder.decode(bytes) match {
             case Right(value) =>

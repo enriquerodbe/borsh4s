@@ -4,10 +4,10 @@ description: Set up the environment
 inputs:
   java:
     description: Whether java should be set up or not
-    default: true
+    default: "true"
   nodejs:
     description: Whether nodejs should be set up or not
-    default: true
+    default: "true"
 
 runs:
   using: "composite"
@@ -28,4 +28,4 @@ runs:
 
     - uses: sbt/setup-sbt@v1
       with:
-        sbt-runner-version: 1.10.11
+        sbt-runner-version: 1.11.4

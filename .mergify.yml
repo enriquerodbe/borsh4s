@@ -1,4 +1,10 @@
-queue_rules:
-  - name: Continuous Integration
-    merge_method: squash
-    autoqueue: true
+pull_request_rules:
+  - name: Automatic merge when CI passes and no unresolved reviews
+    conditions:
+      - check-success = lint
+      - check-success = test
+      - check-success = coverage
+      - "#review-threads-unresolved = 0"
+    actions:
+      merge:
+        method: squash

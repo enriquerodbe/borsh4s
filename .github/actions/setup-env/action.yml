@@ -14,7 +14,7 @@ runs:
   steps:
     - name: Setup Java
       if: ${{ inputs.java }}
-      uses: actions/setup-java@v4
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version-file: '.tool-versions'
@@ -22,10 +22,10 @@ runs:
 
     - name: Setup Node
       if: ${{ inputs.nodejs }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version-file: '.tool-versions'
 
     - uses: sbt/setup-sbt@v1
       with:
-        sbt-runner-version: 1.11.4
+        sbt-runner-version: 1.11.7

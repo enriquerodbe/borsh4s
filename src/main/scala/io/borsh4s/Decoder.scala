@@ -6,7 +6,7 @@ import scala.util.Try
 
 trait Decoder[T]:
   def decode(bytes: ByteBuffer): Result[T]
-  def flatMap[R](f: T => Decoder[R]): Decoder[R] =
+  final def flatMap[R](f: T => Decoder[R]): Decoder[R] =
     bytes => decode(bytes).flatMap(f(_).decode(bytes))
 
 object Decoder:

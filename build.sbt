@@ -40,7 +40,7 @@ lazy val borsh4s =
         ScalacOptions.maxInlines(64)
       ),
       Compile / compile / wartremoverErrors ++=
-        Warts.allBut(Wart.Any, Wart.Nothing),
+        Warts.allBut(Wart.Any, Wart.Nothing) ++ ContribWart.All,
       coverageFailOnMinimum := true,
       // There are 2 lines in Borsh4s.scala that don't get reported
       coverageMinimumStmtTotal := 98.76,

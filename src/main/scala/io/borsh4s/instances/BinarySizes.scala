@@ -33,6 +33,7 @@ object BinarySizes:
   given [T: BinarySize]: BinarySize[Set[T]] =
     Function(total(_) + Nat.Four)
 
+  @SuppressWarnings(Array("org.wartremover.contrib.warts.ExposedTuples"))
   given [K, V](using
       kSize: BinarySize[K],
       vSize: BinarySize[V]

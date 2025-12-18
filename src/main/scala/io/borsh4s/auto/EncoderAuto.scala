@@ -8,6 +8,7 @@ object EncoderAuto extends AutoDerivation[Encoder]:
     (buffer, t) =>
       ctx.params.foreach(p => p.typeclass.encode(buffer, p.deref(t)))
 
+  @SuppressWarnings(Array("org.wartremover.warts.PartialFunctionApply"))
   override def split[T](ctx: SealedTrait[Encoder, T]): Encoder[T] =
     (buffer, t) =>
       ctx.choose(t): sub =>

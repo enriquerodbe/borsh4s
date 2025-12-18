@@ -6,6 +6,7 @@ addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.9")
 
 addSbtPlugin("org.typelevel" % "sbt-tpolecat" % "0.5.2")
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "3.4.3")
+addSbtPlugin("org.wartremover" % "sbt-wartremover-contrib" % "2.3.5")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.4.3")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.6")
 

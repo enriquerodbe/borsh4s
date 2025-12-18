@@ -15,6 +15,7 @@ object BinarySizeAuto extends AutoDerivation[BinarySize]:
     if functions.isEmpty then Constant(constantPart)
     else Function { t => constantPart + functions.map(_.apply(t)).sum }
 
+  @SuppressWarnings(Array("org.wartremover.warts.PartialFunctionApply"))
   override def split[T](ctx: SealedTrait[BinarySize, T]): BinarySize[T] =
     Function: t =>
       Nat.One + ctx.choose(t)(sub => sub.typeclass.calculate(sub.cast(t)))

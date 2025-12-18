@@ -49,7 +49,7 @@ object Decoders:
         .read(_.get())
         .flatMap:
           case 0x0   => Right(None)
-          case 0x1   => tDecoder.decode(bytes).map(Some.apply)
+          case 0x1   => tDecoder.decode(bytes).map(Option.apply)
           case other => Left(Failure.InvalidOptionValue(other, bytes))
 
   given [T: ClassTag](using tDecoder: Decoder[T]): Decoder[Array[T]] =
@@ -58,6 +58,7 @@ object Decoders:
   given [T](using tDecoder: Decoder[T]): Decoder[Set[T]] =
     decodeList(_).map(_.toSet)
 
+  @SuppressWarnings(Array("org.wartremover.contrib.warts.ExposedTuples"))
   given [K, V](using
       kDecoder: Decoder[K],
       vDecoder: Decoder[V]

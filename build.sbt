@@ -45,7 +45,7 @@ lazy val borsh4s =
       Compile / compile / wartremoverErrors ++=
         Warts.allBut(Wart.Any, Wart.Nothing, Wart.Equals) ++ ContribWart.All,
       coverageFailOnMinimum := true,
-      // There are 2 lines in Borsh4s.scala that don't get reported
-      coverageMinimumStmtTotal := 98.76,
+      // The exports in Borsh4s.scala don't get reported
+      coverageMinimumStmtTotal := 99.35,
       coverageMinimumBranchTotal := 100
     )

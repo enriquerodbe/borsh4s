@@ -39,8 +39,9 @@ lazy val borsh4s =
         ScalacOptions.languageFeatureOption("strictEquality"),
         ScalacOptions.maxInlines(64)
       ),
+      // Disabled Wart.Equals because strictEquality is already enabled
       Compile / compile / wartremoverErrors ++=
-        Warts.allBut(Wart.Any, Wart.Nothing) ++ ContribWart.All,
+        Warts.allBut(Wart.Any, Wart.Nothing, Wart.Equals) ++ ContribWart.All,
       coverageFailOnMinimum := true,
       // There are 2 lines in Borsh4s.scala that don't get reported
       coverageMinimumStmtTotal := 98.76,

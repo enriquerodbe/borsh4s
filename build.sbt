@@ -35,7 +35,9 @@ lazy val borsh4s =
       ),
 
       // Lint config
+      tpolecatExcludeOptions += ScalacOptions.fatalWarnings,
       tpolecatScalacOptions ++= Set(
+        ScalacOptions.warnError,
         ScalacOptions.languageFeatureOption("strictEquality"),
         ScalacOptions.maxInlines(64)
       ),
